@@ -25,12 +25,18 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err) => {
     if (err) throw err;
-    console.log("server connected to mongo successfully");
+    console.log("Server connected to mongo successfully");
   }
 );
 
 app.listen(app.get("port"), () => {
   /* eslint-disable no-console */
-  console.log("server is running on port " + app.get("port"));
+  console.log(
+    "Server is running on port " +
+      app.get("port") +
+      " in " +
+      process.env.NODE_ENV +
+      " mode."
+  );
   /* eslint-enable no-console */
 });

@@ -2,6 +2,11 @@ const express = require("express");
 const axios = require("axios");
 require("dotenv").config();
 
+const domain =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000"
+    : "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
+
 const generateRandomString = (length) => {
   let text = "";
   let possible =
@@ -16,7 +21,7 @@ const generateRandomString = (length) => {
 let spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 let spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-let spotify_redirect_uri = "http://localhost:3000/auth/callback";
+let spotify_redirect_uri = domain + "/auth/callback";
 
 const router = express.Router();
 
@@ -37,7 +42,7 @@ router.get("/login", (req, res, next) => {
   );
 });
 
-router.get("/auth/callback", (req, res) => {
+router.get("/callback", (req, res) => {
   let code = req.query.code;
 
   const formData = new URLSearchParams({
