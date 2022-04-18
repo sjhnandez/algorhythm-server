@@ -69,10 +69,10 @@ router.get("/callback", (req, res) => {
     })
     .then((response) => {
       if (response.status == "200") {
-        res.cookie("spotify_access_token", response.data.access_token);
+        let token = encodeURIComponent(response.data.access_token);
         res
           .writeHead(301, {
-            Location: `http://localhost:3000/`,
+            Location: `http://localhost:3000/?token=` + token,
           })
           .end();
       }
