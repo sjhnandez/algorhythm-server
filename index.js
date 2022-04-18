@@ -10,6 +10,7 @@ const authRoutes = require("./auth/routes");
 const postRoutes = require("./posts/routes");
 
 var app = express();
+app.set('trust proxy', 1);
 
 global.access_token = null;
 
