@@ -27,6 +27,7 @@ console.log("Spotify redirect uri: " + spotify_redirect_uri);
 const router = express.Router();
 
 router.get("/login", (req, res, next) => {
+  console.log("got login request");
   let scope = "streaming user-read-email user-read-private";
   let state = generateRandomString(16);
   let auth_query_parameters = new URLSearchParams({
@@ -68,24 +69,23 @@ router.get("/callback", (req, res) => {
     })
     .then((response) => {
       if (response.status == "200") {
-        access_token = response.data.access_token;
-        res.json({ test: "test" });
-       /*  res
+        res.cookie("spotify_access_token", response.data.access_token);
+        res
           .writeHead(301, {
             Location: `http://localhost:3000/`,
           })
-          .end(); */
+          .end();
       }
     })
     .catch((error) => {
       console.log(error);
     });
 });
-
+/* 
 router.get("/auth_token", (req, res) => {
   console.log("getting token");
   res.json({ access_token: access_token });
-});
+}); */
 
 router.get("/logout", (req, res) => {
   console.log("logging out...");

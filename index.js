@@ -4,16 +4,20 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const cookieParser = require('cookie-parser');
 
 const authRoutes = require("./auth/routes");
 const postRoutes = require("./posts/routes");
 
 var app = express();
 
+global.access_token = null;
+
 // middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan("tiny"));
+app.use(cookieParser());
 
 app.set("port", process.env.PORT);
 
