@@ -36,6 +36,7 @@ router.get("/login", (req, res, next) => {
     scope: scope,
     redirect_uri: spotify_redirect_uri,
     state: state,
+    show_dialog: true,
   });
 
   res.redirect(
