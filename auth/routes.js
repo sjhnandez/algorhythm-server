@@ -69,11 +69,12 @@ router.get("/callback", (req, res) => {
     .then((response) => {
       if (response.status == "200") {
         access_token = response.data.access_token;
-        res
+        res.json({ test: "test" });
+       /*  res
           .writeHead(301, {
             Location: `http://localhost:3000/`,
           })
-          .end();
+          .end(); */
       }
     })
     .catch((error) => {
