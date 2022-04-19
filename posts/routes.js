@@ -17,4 +17,9 @@ router.post("/create_post", async (req, res, next) => {
   });
 });
 
+router.post("/add_reaction", async (req, res, next) => {
+  console.log(req.body);
+  Post.update;
+});
+
 module.exports = router;

@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-
   //Post Content
   text: {
     type: String,
     required: true,
   },
+
   tags: [
     {
       type: String,
@@ -56,9 +56,14 @@ const postSchema = new Schema({
     required: true,
   },
 
+  reactions: [
+    {
+      type: String,
+    },
+  ],
+
   //Temporal Data
   created_at: { type: Date, default: Date.now() },
-
 });
 
 module.exports = mongoose.model("Post", postSchema);

@@ -127,7 +127,7 @@ router.post("/new_token", (req, res) => {
           ? encodeURIComponent(response.data.refresh_token)
           : null;
         res
-          .writeHead(301, {
+          .writeHead(200, {
             Location:
               `http://localhost:3000/?token=` +
               token +
