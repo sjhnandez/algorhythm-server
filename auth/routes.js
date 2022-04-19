@@ -71,9 +71,19 @@ router.get("/callback", (req, res) => {
     .then((response) => {
       if (response.status == "200") {
         let token = encodeURIComponent(response.data.access_token);
+        let expiration = encodeURIComponent(
+          Date.now() + response.data.expires_in * 1000
+        );
+        let refresh_token = encodeURIComponent(response.data.refresh_token);
         res
           .writeHead(301, {
-            Location: `http://localhost:3000/?token=` + token,
+            Location:
+              `http://localhost:3000/?token=` +
+              token +
+              `&expires=` +
+              expiration +
+              `&refresh_token=` +
+              refresh_token,
           })
           .end();
       }
@@ -88,10 +98,49 @@ router.get("/auth_token", (req, res) => {
   res.json({ access_token: access_token });
 }); */
 
-router.get("/logout", (req, res) => {
-  console.log("logging out...");
-  access_token = null;
-  res.redirect("http://localhost:3000/");
+router.post("/new_token", (req, res) => {
+  let formData = new URLSearchParams({
+    refresh_token: req.body.refresh_token,
+    grant_type: "refresh_token",
+  });
+  axios
+    .request({
+      url: "https://accounts.spotify.com/api/token",
+      method: "POST",
+      headers: {
+        Authorization:
+          "Basic " +
+          Buffer.from(spotify_client_id + ":" + spotify_client_secret).toString(
+            "base64"
+          ),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: formData,
+    })
+    .then((response) => {
+      if (response.status == "200") {
+        let token = encodeURIComponent(response.data.access_token);
+        let expiration = encodeURIComponent(
+          Date.now() + response.data.expires_in * 1000
+        );
+        let refresh_token = response.data.refresh_token
+          ? encodeURIComponent(response.data.refresh_token)
+          : null;
+        res
+          .writeHead(301, {
+            Location:
+              `http://localhost:3000/?token=` +
+              token +
+              `&expires=` +
+              expiration +
+              (refresh_token ? `&refresh_token=` + refresh_token : ""),
+          })
+          .end();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 module.exports = router;
