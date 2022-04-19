@@ -78,7 +78,7 @@ router.get("/callback", (req, res) => {
         res
           .writeHead(301, {
             Location:
-              `http://localhost:3000/?token=` +
+              `https://algorhythm-front.herokuapp.com/?token=` +
               token +
               `&expires=` +
               expiration +
