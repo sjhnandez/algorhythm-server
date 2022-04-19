@@ -72,7 +72,7 @@ router.get("/callback", (req, res) => {
       if (response.status == "200") {
         let token = encodeURIComponent(response.data.access_token);
         let expiration = encodeURIComponent(
-          Date.now() + response.data.expires_in * 1000
+          Date.now() - 600000 + response.data.expires_in * 1000
         );
         let refresh_token = encodeURIComponent(response.data.refresh_token);
         res
@@ -121,7 +121,7 @@ router.post("/new_token", (req, res) => {
       if (response.status == "200") {
         res.json({
           token: response.data.access_token,
-          expires: Date.now() + response.data.expires_in * 1000,
+          expires: Date.now() - 600000 + response.data.expires_in * 1000,
         });
       }
     })

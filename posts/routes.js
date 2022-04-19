@@ -19,7 +19,19 @@ router.post("/create_post", async (req, res, next) => {
 
 router.post("/add_reaction", async (req, res, next) => {
   console.log(req.body);
-  Post.update;
+  Post.findById(req.body.postID, (err, post) => {
+    if (err) next(err);
+    post.reactions.push({
+      emoji: req.body.emoji,
+      reactedBy: req.body.reactedBy,
+    });
+    console.log(post);
+    post.save((err) => {
+      if (err) next(err);
+      console.log("Reaction saved!");
+      res.sendStatus(200).end();
+    });
+  });
 });
 
 module.exports = router;

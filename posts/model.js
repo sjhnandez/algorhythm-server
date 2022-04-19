@@ -58,7 +58,12 @@ const postSchema = new Schema({
 
   reactions: [
     {
-      type: String,
+      emoji: {
+        type: String,
+      },
+      reactedBy: {
+        type: String,
+      },
     },
   ],
 
