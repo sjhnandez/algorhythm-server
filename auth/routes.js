@@ -119,23 +119,10 @@ router.post("/new_token", (req, res) => {
     })
     .then((response) => {
       if (response.status == "200") {
-        let token = encodeURIComponent(response.data.access_token);
-        let expiration = encodeURIComponent(
-          Date.now() + response.data.expires_in * 1000
-        );
-        let refresh_token = response.data.refresh_token
-          ? encodeURIComponent(response.data.refresh_token)
-          : null;
-        res
-          .writeHead(200, {
-            Location:
-              `http://localhost:3000/?token=` +
-              token +
-              `&expires=` +
-              expiration +
-              (refresh_token ? `&refresh_token=` + refresh_token : ""),
-          })
-          .end();
+        res.json({
+          token: response.data.access_token,
+          expires: Date.now() + response.data.expires_in * 1000,
+        });
       }
     })
     .catch((error) => {
